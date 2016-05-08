@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C915F5C71CDEED9F0058DB2F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915F5C61CDEED9F0058DB2F /* main.swift */; };
+		C915F5D01CDEEF730058DB2F /* Sudoku.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915F5CF1CDEEF730058DB2F /* Sudoku.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		C915F5C31CDEED9F0058DB2F /* Sudoku */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Sudoku; sourceTree = BUILT_PRODUCTS_DIR; };
 		C915F5C61CDEED9F0058DB2F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C915F5CD1CDEEE490058DB2F /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
+		C915F5CF1CDEEF730058DB2F /* Sudoku.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sudoku.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +44,7 @@
 		C915F5BA1CDEED9F0058DB2F = {
 			isa = PBXGroup;
 			children = (
+				C915F5CD1CDEEE490058DB2F /* Readme.md */,
 				C915F5C51CDEED9F0058DB2F /* Sudoku */,
 				C915F5C41CDEED9F0058DB2F /* Products */,
 			);
@@ -58,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				C915F5C61CDEED9F0058DB2F /* main.swift */,
+				C915F5CF1CDEEF730058DB2F /* Sudoku.swift */,
 			);
 			path = Sudoku;
 			sourceTree = "<group>";
@@ -120,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C915F5C71CDEED9F0058DB2F /* main.swift in Sources */,
+				C915F5D01CDEEF730058DB2F /* Sudoku.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
