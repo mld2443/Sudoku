@@ -22,14 +22,14 @@ I initially wanted to generate puzzles by a genetic algorithm, but when I saw th
 This methodology works on the basis of several key facts:
 
 * Puzzles that have a unique solution can be rearranged and permuted while keeping their unique solution using the following 8 operations:
-  1. Jumbling the inner rows of each of the 3x3 clusters (3 * 3! number of configurations)
-  2. Jumbling the outer rows, the rows of the 3x3 clusters themselvs (3! configurations)
-  3. Jumbling the inner columns (3 * 3!)
-  4. Jumbling the outer columns (3!)
-  5. Jumbling the numbers (e.g. all 6s become 4s, all 3s become 8s, etc.) (9!)
-  6. Arbitrarily rotating the grid (4)
-  7. Mirroring accross the horizontal axis (2)
-  8. Mirroring down the vertical axis (2)
+  1. Jumbling the inner rows of each of the 3x3 clusters (`3 * 3!` number of configurations)
+  2. Jumbling the outer rows, the rows of the 3x3 clusters themselvs (`3!` configurations)
+  3. Jumbling the inner columns (`3 * 3!`)
+  4. Jumbling the outer columns (`3!`)
+  5. Jumbling the numbers (e.g. all 6s become 4s, all 3s become 8s, etc.) (`9!`)
+  6. Arbitrarily rotating the grid (`4`)
+  7. Mirroring accross the horizontal axis (`2`)
+  8. Mirroring down the vertical axis (`2`)
 * The generator never takes away from the original clues when making puzzles easier, so it always preserves the unique solution as well.
 
 With the jumblers, I create what are essentially ceaser ciphers, (I call them as much in code). The different total configurations begin to get much larger when you add in each of the 8 operations. The number of unique configurations is exactly 1,254,113,280 (this is computed by multiplying them all together, save one of the mirrorings, since altogether with the mirroring and rotations there's really only 8 unique permutationsinstead of 16).  
@@ -44,5 +44,7 @@ It isn't quite correct to say that a puzzle with `x` clues, and the same puzzle 
 ##References
 
 1. [Gary McGuire, Bastian Tugemann, Gilles Civario. "There is no 16-Clue Sudoku: Solving the Sudoku Minimum Number of Clues Problem" Jan 1st, 2012](http://www.math.ie/McGuire_V1.pdf)
-2. [Sudoku Puzzles Generating: from Easy to Evil](http://zhangroup.aporc.org/images/files/Paper_3485.pdf)^*
+2. [Sudoku Puzzles Generating: from Easy to Evil](http://zhangroup.aporc.org/images/files/Paper_3485.pdf)*
 3. [Bahare Fatemi, Seyed Mehran Kazemi, Nazanin Mehrasa. "Rating and Generating Sudoku Puzzles Based On Constraint Satisfaction Problems" In: *International Science Index, Computer and Information Engineering Vol:8, No:10*, 2014](http://waset.org/publications/9999524/rating-and-generating-sudoku-puzzles-based-on-constraint-satisfaction-problems)
+
+* I could not find a better copy of this. It has no authors listed, but I ultimately used their description of the sudoku solver, if only slightly improved.
