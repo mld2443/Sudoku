@@ -33,11 +33,11 @@ This methodology works on the basis of several key facts:
 * The generator never takes away from the original clues when making puzzles easier, so it always preserves the unique solution as well.
 
 With the jumblers, I create what are essentially ceaser ciphers, (I call them as much in code). The different total configurations begin to get much larger when you add in each of the 8 operations. The number of unique configurations is exactly 1,254,113,280 (this is computed by multiplying them all together, save one of the mirrorings, since altogether with the mirroring and rotations there's really only 8 unique permutationsinstead of 16).  
-A number as large as that would see the end of yur lifetime before you were likely to see the same configuration twice (assuming you were actually solving them), and that's only for one puzzle on one difficulty setting.  
-Another interesting consequence of the uniqueness of puzzle solutions, is that if two puzzles are not in the same family of puzzles, (meaning there is no way to permute their final solutions such that they are identical), then there is also no way to permute their unsolved counterparts such that they become identical. If you could permute the unsolved clues of two different puzzles, that implies the solutions are permutations of each other too.  
+A number as large as that would see the end of your lifetime before you were likely to see the same configuration twice (assuming you were actually solving them), and that's only for one puzzle on one difficulty setting.  
+Another interesting consequence of the uniqueness of puzzle solutions, is that if two puzzles are not in the same family of puzzles, (meaning there is no way to permute their final solutions such that they are identical), then there is also no way to permute their unsolved counterparts such that they become identical. If you could permute the unsolved clues of two different puzzles to be identical, that implies the solutions are permutations of each other too.  
 This means that with each unique final solution put into the database, I get more than 1 billion possible puzzles, guaranteed, without even talking about changing up the difficulty.
 
-####On the Subject of difficulty
+#####On the Subject of difficulty
 
 It isn't quite correct to say that a puzzle with `x` clues, and the same puzzle with an additional `x + 1` clue added are necessarily different puzzles. But there is something ot be said about the techniques used when mentally solving a puzzle and getting a clue handed to you that you would normally have to infer much later along the process of solving. Such a clue does change the way the puzzle appears to be solved. Still, I did not include that in the final tally, because It felt a little unnecessary, I had proven my point.
 
