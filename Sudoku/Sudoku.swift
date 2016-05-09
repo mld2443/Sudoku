@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 /// Holds a Sudoku grid and many useful operations for that grid
 public struct Sudoku {
 	var grid = [[UInt8]](count: 9, repeatedValue:[UInt8](count: 9, repeatedValue:0))
@@ -17,8 +16,12 @@ public struct Sudoku {
 
 // Permutations to a board
 extension Sudoku{
-	public mutating func jumble(seed: UInt32 = UInt32(time(nil))) {
-		srandom(seed)
+	/// Jumbles the puzzle clues in a random fashion using all separate jumblers
+	/// - note: Possible permutations: `9! * 2 * (3 * 3!) * 2 * 3! * 4 * 2 = 1,254,113,280`
+	public mutating func jumble(newSeed: Bool = true, seed: UInt32 = UInt32(time(nil))) {
+		if newSeed {
+			srandom(seed)
+		}
 		
 		jumbleInnerRows()
 		jumbleOuterRows()
@@ -37,6 +40,8 @@ extension Sudoku{
 		}
 	}
 	
+	/// Performs a caesar cipher swap of numbers
+	/// - note: Possible permutations: `9!`
 	public mutating func jumbleNumbers() {
 		var cipher = createCipher(9)
 		cipher.insert(0, atIndex: 0)
@@ -54,6 +59,8 @@ extension Sudoku{
 		grid = newGrid
 	}
 	
+	/// Jumbles the rows among the each group of 3 rows
+	/// - note: Possible permutations: `3 * 3!`
 	public mutating func jumbleInnerRows() {
 		let cipher1 = createCipher(3)
 		let cipher2 = createCipher(3)
@@ -70,6 +77,8 @@ extension Sudoku{
 		grid = newGrid
 	}
 	
+	/// Jumbles the columns among the each group of 3 columns
+	/// - note: Possible permutations: `3 * 3!`
 	public mutating func jumbleInnerColumns() {
 		let cipher1 = createCipher(3)
 		let cipher2 = createCipher(3)
@@ -92,6 +101,8 @@ extension Sudoku{
 		grid = newGrid
 	}
 	
+	/// Jumbles the 3 groups of 3 rows amongst themselves
+	/// - note: Possible permutations: `3!`
 	public mutating func jumbleOuterRows() {
 		let cipher = createCipher(3)
 		
@@ -106,6 +117,8 @@ extension Sudoku{
 		grid = newGrid
 	}
 	
+	/// Jumbles the 3 groups of 3 columns amongst themselves
+	/// - note: Possible permutations: `3!`
 	public mutating func jumbleOuterColumns() {
 		let cipher = createCipher(3)
 		
@@ -126,6 +139,8 @@ extension Sudoku{
 		grid = newGrid
 	}
 	
+	/// Rotates the values of the grid clockwise a specified number of steps
+	/// - note: Possible permutations: `4`
 	public mutating func rotateClockwise(rotations: Int = 1) {
 		let xRotations = [{(y: Int, x: Int) in x}, {(y: Int, x: Int) in y}, {(y: Int, x: Int) in 8 - x}, {(y: Int, x: Int) in 8 - y}]
 		let yRotations = [{(y: Int, x: Int) in y}, {(y: Int, x: Int) in 8 - x}, {(y: Int, x: Int) in 8 - y}, {(y: Int, x: Int) in x}]
@@ -144,6 +159,9 @@ extension Sudoku{
 		grid = newGrid
 	}
 	
+	/// Mirrors the values of the grid across the horizontal axis
+	/// - note: Possible permutations: `2`
+	/// - remark: this is functionally equivalent to the other mirror function with an additional rotation
 	public mutating func mirrorHorizontal() {
 		var newGrid = [[UInt8]](count: 9, repeatedValue:[UInt8](count: 9, repeatedValue:0))
 		
@@ -156,6 +174,9 @@ extension Sudoku{
 		grid = newGrid
 	}
 	
+	/// Mirrors the values of the grid across the vertical axis
+	/// - note: Possible permutations: `2`
+	/// - remark: this is functionally equivalent to the other mirror function with an additional rotation
 	public mutating func mirrorVertical() {
 		var newGrid = [[UInt8]](count: 9, repeatedValue:[UInt8](count: 9, repeatedValue:0))
 		
@@ -173,19 +194,21 @@ extension Sudoku{
 // For checking the unique solution of the puzzle
 extension Sudoku {
 	/// - returns: Number of unique solutions in the current puzzle configuration
-	@warn_unused_result
-	public func solveDFS() -> Int {
-		var solutions = 0
+	public func solveDFS(startIndex: Int = 0) -> Int {
+		var solutions = 0, index = startIndex
 		var moves = Set<UInt8>()
 		var coords = (0, 0)
 		var completed = true
 		
-		// Search for the first empty space
-		for row in 0..<(9*9) where grid[row/9][row%9] == 0 {
-			completed = false
-			coords = (row/9, row%9)
-			moves = getValidMovesFor(coords)
-			break
+		// Search for the first empty cell after the starting index
+		while index < (9*9) && completed {
+			if grid[index/9][index%9] == 0 {
+				completed = false
+				coords = (index/9, index%9)
+				moves = getValidMovesFor(coords)
+				break
+			}
+			index = index + 1
 		}
 		
 		// We have found a configuration that is a solution
@@ -206,7 +229,7 @@ extension Sudoku {
 			newGrid[coords.0][coords.1] = move
 			let guess = Sudoku(grid: newGrid)
 			
-			solutions += guess.solveDFS()
+			solutions += guess.solveDFS(index + 1)
 		}
 		
 		return solutions
@@ -250,8 +273,8 @@ extension Sudoku {
 		return true
 	}
 	
-	/// - returns: number of empty spaces remaining in the puzzle
-	public var emptySpaces: Int {
+	/// - returns: number of open cells remaining in the puzzle
+	public var liberties: Int {
 		var count = 0
 		
 		for row in grid {
@@ -263,8 +286,8 @@ extension Sudoku {
 		return count
 	}
 	
-	/// - returns: number of taken spaces remaining in the puzzle
-	public var takenSpaces: Int {
+	/// - returns: number of given cells in the puzzle
+	public var givens: Int {
 		var count = 0
 		
 		for row in grid {
@@ -274,6 +297,33 @@ extension Sudoku {
 		}
 		
 		return count
+	}
+	
+	/// - returns: the difficulty of the given puzzle
+	public var difficulty: Double {
+		let L = Double(liberties)
+		let D_l = (L / 64.0) * (L / 64.0)
+		
+		// T is the time it takes to find the unique solutions, with a timeout of 4 seconds
+		// let D_t = max((sqrt(T) / 2.0), 1.0)
+		
+		// I would multiply D_l and D_t and return that nunmber as the difficulty value.
+		
+		return D_l
+	}
+	
+	/// - returns: the coordinates of the nth liberty
+	public func libertyCoords(lookup: Int) -> (Int, Int) {
+		var count = 0
+		
+		for index in 0..<(9*9) where grid[index/9][index%9] == 0 {
+			if count == lookup {
+				return (index/9, index%9)
+			}
+			count = count + 1
+		}
+		
+		return (-1, -1)
 	}
 }
 
@@ -377,7 +427,7 @@ extension Sudoku {
 		return rowValid.intersect(colValid.intersect(clusterValid))
 	}
 	
-	/// Helper function to check groups for duplicate values
+	/// Helper function to check collections for non-zero duplicate values
 	private func checkGroup(group: [UInt8]) -> Bool {
 		var seen = [Bool](count: 9, repeatedValue: false)
 		

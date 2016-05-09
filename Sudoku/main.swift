@@ -8,59 +8,24 @@
 
 import Foundation
 
-let easy: [[UInt8]] = [[0,2,0, 4,5,6, 7,8,9],
-                       [4,5,7, 0,8,0, 2,3,6],
-                       [6,8,9, 2,3,7, 0,4,0],
-                       
-                       [0,0,5, 3,6,2, 9,7,4],
-                       [2,7,4, 0,9,0, 6,5,3],
-                       [3,9,6, 5,7,4, 8,0,0],
-                       
-                       [0,4,0, 6,1,8, 3,9,7],
-                       [7,6,1, 0,4,0, 5,2,8],
-                       [9,3,8, 7,2,5, 0,6,0]]
+// initialize our generator
+let gen = Generator()
 
-let hard: [[UInt8]] = [[0,0,0, 6,0,0, 0,0,0],
-                       [0,7,5, 0,4,0, 0,0,0],
-                       [0,0,0, 0,0,8, 9,1,0],
-                       
-                       [0,0,2, 8,0,0, 0,0,5],
-                       [6,0,3, 0,0,0, 1,0,2],
-                       [4,0,0, 0,0,7, 6,0,0],
-                       
-                       [0,3,1, 4,0,0, 0,0,0],
-                       [0,0,0, 0,7,0, 8,4,0],
-                       [0,0,0, 0,0,1, 0,0,0]]
+// set the difficulty of our puzzle; needs to be in the range (0.0, 1.0) with lower being easier
+let difficulty = 0.7
 
-let mean: [[UInt8]] = [[0,0,0, 8,0,1, 0,0,0],
-                       [0,0,0, 0,0,0, 0,4,3],
-                       [5,0,0, 0,0,0, 0,0,0],
-                       
-                       [0,0,0, 0,7,0, 8,0,0],
-                       [0,0,0, 0,0,0, 1,0,0],
-                       [0,2,0, 0,3,0, 0,0,0],
-                       
-                       [6,0,0, 0,0,0, 0,7,5],
-                       [0,0,3, 4,0,0, 0,0,0],
-                       [0,0,0, 2,0,0, 6,0,0]]
+// generate a puzzle...
+let puzzle = gen.generate(difficulty, verbose: true)
 
-var test = Sudoku(grid: hard)
+// ...or generate a puzzle from a specific seed
+//let puzzle = gen.generate(difficulty, seed: 0)
+//print(puzzle)
 
-print(test)
-
-test.jumble()
-
-print("\nAfter jumbling:")
-print(test)
-
-print()
-print(test.checkValidity)
-
-print()
-
+// begin timer
 let start = NSDate()
 
-let solutions = test.solveDFS()
+// check for uniqueness of solution
+let solutions = puzzle.solveDFS()
 
-print("found \(solutions) solution(s) in \(NSDate().timeIntervalSinceDate(start)) second(s)")
-print()
+// print our findings
+print("found \(solutions) solution(s) in \(String(format: "%.3f", NSDate().timeIntervalSinceDate(start))) second(s)\n")

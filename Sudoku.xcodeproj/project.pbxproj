@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C915F5C71CDEED9F0058DB2F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915F5C61CDEED9F0058DB2F /* main.swift */; };
 		C915F5D01CDEEF730058DB2F /* Sudoku.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915F5CF1CDEEF730058DB2F /* Sudoku.swift */; };
+		C915F5F01CE038BF0058DB2F /* Generator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C915F5EF1CE038BF0058DB2F /* Generator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,7 @@
 		C915F5C61CDEED9F0058DB2F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C915F5CD1CDEEE490058DB2F /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		C915F5CF1CDEEF730058DB2F /* Sudoku.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sudoku.swift; sourceTree = "<group>"; };
+		C915F5EF1CE038BF0058DB2F /* Generator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 			children = (
 				C915F5C61CDEED9F0058DB2F /* main.swift */,
 				C915F5CF1CDEEF730058DB2F /* Sudoku.swift */,
+				C915F5EF1CE038BF0058DB2F /* Generator.swift */,
 			);
 			path = Sudoku;
 			sourceTree = "<group>";
@@ -124,6 +127,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C915F5F01CE038BF0058DB2F /* Generator.swift in Sources */,
 				C915F5C71CDEED9F0058DB2F /* main.swift in Sources */,
 				C915F5D01CDEEF730058DB2F /* Sudoku.swift in Sources */,
 			);
@@ -247,6 +251,7 @@
 				C915F5CC1CDEED9F0058DB2F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
