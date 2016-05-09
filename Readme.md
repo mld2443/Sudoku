@@ -50,6 +50,36 @@ My method is fairly similar to the one described in the prompt. I formalize the 
 The difficulty metric I use is converted from an analog value [0,1) to a discrete scale for clues number, and a logarithmic scale for the DFS solver metric.  
 There are indeed more metrics that could be used to judge the difficulty of a Sudoku puzzle, which I explore below.
 
+###Results
+
+###Conclusion
+
+####What I Would Do Differently
+
+If I were to start over, there are three other approaches I might consider.
+
+#####A Genetic Algorithm
+
+Probably not practical, but worth mentioning.
+
+Generate a population of unsolved sudoku puzzles with a set number of clues each and with no care as to the difficulty of the puzzle, or the uniqueness of the solution.
+
+Breeding might involve creating a random bitmask of some kind, and then applying it to the a pair of puzzles to create a new one. We then equalize the new board, adding random clues or removing random clues to reach a desired tolerance of number of clues. Mutations would occur as part of the equalization process. (This is just a rough idea, might need to be changed).
+
+The fitness function would be the closeness to the desired difficulty. This might be the speed in which a good search algorithm is able to complete the puzzle; it could also be the number of clues given. A secondary fitness function is needed to tell when the algorithm can terminate: the number of unique solutions.
+
+Genetic algorithms can be very time consuming, and I have little idea how to really speed this up, all parts involved include costly operations.
+
+#####Hole Digging
+
+This is pretty much exactly as described (albeit poorly) in [2]. Generate a legal solution board, then dig holes in a pattern following criteria that specifies how not to make the game unsolvable. This approach will require the guesswork and difficulty measurement described in the question prompt, as far as I can tell.
+
+#####Inverse Constraint Satisfaction
+
+A different kind of hole digging approach. The idea here is to use something similar to [4] where I would formalize legal moves and perform the search for possiblities to remove in such a way that they would not compromise the unique solution of the configuration.  
+I call it Inverse because (I could be wrong about this) each possible legal move to remove a piece of the puzzle would theoretically map to a kind of logic inference technique needed to deduce that cells value once removed.  
+Here the difficulty can be controlled by assigning each of those legal moves with a difficulty rating, and when the user wishes for an easier puzzle, exclude the harder difficulty moves from the search.
+
 ##Other Thoughts
 
 ###Another Solver
