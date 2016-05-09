@@ -314,7 +314,7 @@ extension Sudoku : CustomStringConvertible {
 
 // Private functions
 extension Sudoku {
-	/// - returns: A ceaser cipher of requested size
+	/// - returns: A caesar cipher of requested size
 	private func createCipher(size: Int) -> [Int] {
 		var cipher = [Int](count: size, repeatedValue: 0)
 		
