@@ -17,7 +17,7 @@ I initially wanted to generate puzzles by a genetic algorithm, but when I saw th
 3. The user inputs the desired dificulty on some scale
 4. The generator will pick a puzzle at random, then try to adapt it to the desired difficulty setting:
   * It will add clues from the solution until the difficulty criteria are met.
-5. Then it will jumble the puzzle and present it to the player.
+5. Jumble the puzzle and present it to the player.
 
 ###Methodolgy
 
@@ -32,10 +32,25 @@ I initially wanted to generate puzzles by a genetic algorithm, but when I saw th
   8. Mirroring down the vertical axis (`2`)
 * The generator never takes away from the original clues when making puzzles easier, so it always preserves the unique solution as well.
 
-With the jumblers, I create what are essentially caesar ciphers, (I call them as much in code). The different total configurations begin to get much larger when you add in each of the 8 operations. The number of unique configurations is exactly 1,254,113,280 (this is computed by multiplying them all together, save one of the mirrorings, since altogether with the mirroring and rotations there's really only 8 unique permutationsinstead of 16).  
-A number as large as that would see the end of your lifetime before you were likely to see the same configuration twice (assuming you were actually solving them), and that's only for one puzzle on one difficulty setting.  
-Another interesting consequence of the uniqueness of puzzle solutions, is that if two puzzles are not in the same family of puzzles, (meaning there is no way to permute their final solutions such that they are identical), then there is also no way to permute their unsolved counterparts such that they become identical. If you could permute the unsolved clues of two different puzzles to be identical, that implies the solutions are permutations of each other too.  
-This means that with each unique final solution put into the database, I get more than 1 billion possible puzzles, guaranteed, without even talking about changing up the difficulty.
+With the jumblers, I create what are essentially caesar ciphers, (I call them as much in code). The different total configurations begin to get much larger when you add in each of the 8 operations. The number of unique configurations is exactly 1,254,113,280 (this is computed by multiplying them all together, save one of the mirrorings, since altogether with the mirroring and rotations there's really only 8 unique permutationsinstead of 16). A number as large as that would see the end of your lifetime before you were likely to see the same configuration twice (assuming you were actually solving them), and that's only for one puzzle on one difficulty setting.
+
+Another interesting consequence of the uniqueness of puzzle solutions, is that if two puzzles are not in the same family of puzzles, (meaning there is no way to permute their final solutions such that they are identical), then there is also no way to permute their unsolved counterparts such that they become identical. If you could permute the unsolved clues of two different puzzles to be identical, that implies the solutions are permutations of each other too. This means that with each unique final solution put into the database, I get more than 1 billion possible puzzles, guaranteed, without even talking about changing up the difficulty.
+
+####Difficulty Metric
+
+The difficulty metric I use is converted measured against two metrics of difficulty, a measure based on the number of liberties, (open cells), and measurement of time to search for solution.
+
+To compute the metric for liberties, I first note the maximum number of liberties possible is 64, (81 total cells, minus 17 givens as the minimum number of clues for a unique puzzle, [1]). I then put the number of actual liberties (`L`) of a given puzzle through the following formula:
+
+D<sub>L</sub> = (L / 64)<sup>2</sup>
+
+I then perform the search, with a timeout of 4 seconds. Anything longer than 4 seconds is negligably harder. Here's the formula for the metric based on the time (`T`) to complete the search:
+
+D<sub>T</sub> = (√T / 2)
+
+The results would be multiplied together.
+
+There are indeed more metrics that could be used to judge the difficulty of a Sudoku puzzle, which I explore below.
 
 #####On the Subject of difficulty
 
@@ -47,12 +62,22 @@ My method is fairly similar to the one described in the prompt. I formalize the 
 
 ###Continuousness
 
-The difficulty metric I use is converted from an analog value [0,1) to a discrete scale for clues number, and a logarithmic scale for the DFS solver metric.  
-There are indeed more metrics that could be used to judge the difficulty of a Sudoku puzzle, which I explore below.
+Even though I did not get the difficulty implemented *exactly* how I wanted, theoretically it can support any arbitrary descrete or analog value, making it functionally continuous.
 
 ###Results
 
+Using Swift has its downsides. I really enjoy programming in the language, but there's not as much documentation on it as I would like, and since the language is still new and evolving, some of what is there is outdated.
+
+I struggled to find a way to implemt my measure of difficulty as I would have liked. It comes down to the fact that I wanted to run a search on the puzzle for the number of solutions, but have a timeout of a few seconds in case it took too long.  
+This timeout proved much more difficult to implement as I would have hoped, thus I left the "Time to solve" metric out of my measure of difficulty.
+
+The measure is still on an analog scale, however. If I could find a way around the timeout problem, (or write a better search, like the one I discuss below), or think of a new metric, I could very quickly incorporate it into the existing code.
+
+Even as it is, a user would be hard hard pressed to know how the system works from just generating a bunch of puzzles.
+
 ###Conclusion
+
+I'm fairly pleased with how it's turned out. With only one metric considered in the measure of difficulty, the actual difficulty of the puzzles might not scale as nicely; but short of running a user study, I have a hunch even just what's there is probably pretty close.
 
 ####What I Would Do Differently
 
