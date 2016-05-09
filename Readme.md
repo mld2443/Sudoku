@@ -5,9 +5,9 @@
 
 Technically, the executable is runnable on any Mac running OS X 10.11 but if you wish to see the code compile and run, you will need to use XCode 7.3. The project is included, just open it and run.
 
-##Approach
+##First Approach
 
-I initially wanted to generate puzzles by a genetic algorithm, but when I saw the time it takes to calculate the uniqueness of a solution, I decided I didn't have enough time to test this given that such a calculation might need to go into a fitness function. The first approach that I went with is a jumbling approach. The idea is simple:
+I initially wanted to generate puzzles by a genetic algorithm, but when I saw the time it takes to calculate the uniqueness of a solution, I decided I didn't have enough time to test this given that such a calculation might need to go into a fitness function. I went with a jumbling approach. The idea is simple:
 
 1. Create a bank of initial puzzles, and their solutions
   * The solutions are pretty much only for the hard puzzles since it's unreasonable to brute force the solution
@@ -19,7 +19,7 @@ I initially wanted to generate puzzles by a genetic algorithm, but when I saw th
   * It will add clues from the solution until the difficulty criteria are met.
 5. Then it will jumble the puzzle and present it to the player.
 
-This methodology works on the basis of several key facts:
+###Methodolgy
 
 * Puzzles that have a unique solution can be rearranged and permuted while keeping their unique solution using the following 8 operations:
   1. Jumbling the inner rows of each of the 3x3 clusters (`3 * 3!` number of configurations)
@@ -44,7 +44,7 @@ It isn't quite correct to say that a puzzle with `x` clues, and the same puzzle 
 ##References
 
 1. [Gary McGuire, Bastian Tugemann, Gilles Civario. "There is no 16-Clue Sudoku: Solving the Sudoku Minimum Number of Clues Problem" Jan 1st, 2012](http://www.math.ie/McGuire_V1.pdf)
-2. [Sudoku Puzzles Generating: from Easy to Evil](http://zhangroup.aporc.org/images/files/Paper_3485.pdf)*
+2. [Sudoku Puzzles Generating: from Easy to Evil](http://zhangroup.aporc.org/images/files/Paper_3485.pdf)<sup>*</sup>
 3. [Bahare Fatemi, Seyed Mehran Kazemi, Nazanin Mehrasa. "Rating and Generating Sudoku Puzzles Based On Constraint Satisfaction Problems" In: *International Science Index, Computer and Information Engineering Vol:8, No:10*, 2014](http://waset.org/publications/9999524/rating-and-generating-sudoku-puzzles-based-on-constraint-satisfaction-problems)
 
 \* I could not find a better copy of this. It has no authors listed, but I ultimately used their description of the sudoku solver, if only slightly improved.
