@@ -12,7 +12,7 @@ import Foundation
 let gen = Generator()
 
 // set the difficulty of our puzzle; needs to be in the range (0.0, 1.0) with lower being easier
-let difficulty = 0.7
+let difficulty = 0.75
 
 // generate a puzzle...
 let puzzle = gen.generate(difficulty, verbose: true)
