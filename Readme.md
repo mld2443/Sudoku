@@ -1,11 +1,11 @@
-#SUDOKU GENERATION
+# SUDOKU GENERATION
 ![Swift 2.2.1](https://img.shields.io/badge/Swift-2.2.1-orange.svg?style=flat)
 
-##Execution
+## Execution
 
 Technically, the executable is runnable on any Mac running OS X 10.11 but if you wish to see the code compile and run, you will need to use XCode 7.3. The project is included, just open it and run.
 
-##First Approach
+## First Approach
 
 I initially wanted to generate puzzles by a genetic algorithm, but when I saw the time it takes to calculate the uniqueness of a solution, I decided I didn't have enough time to test this given that such a calculation might need to go into a fitness function. I went with a jumbling approach. The idea is simple:
 
@@ -19,7 +19,7 @@ I initially wanted to generate puzzles by a genetic algorithm, but when I saw th
   * It will add clues from the solution until the difficulty criteria are met.
 5. Jumble the puzzle and present it to the player.
 
-###Methodolgy
+### Methodolgy
 
 * Puzzles that have a unique solution can be rearranged and permuted while keeping their unique solution using the following 8 operations:
   1. Jumbling the inner rows of each of the 3x3 clusters (`3 * 3!` number of configurations)
@@ -36,7 +36,7 @@ With the jumblers, I create what are essentially caesar ciphers, (I call them as
 
 Another interesting consequence of the uniqueness of puzzle solutions, is that if two puzzles are not in the same family of puzzles, (meaning there is no way to permute their final solutions such that they are identical), then there is also no way to permute their unsolved counterparts such that they become identical. If you could permute the unsolved clues of two different puzzles to be identical, that implies the solutions are permutations of each other too. This means that with each unique final solution put into the database, I get more than 1 billion possible puzzles, guaranteed, without even talking about changing up the difficulty.
 
-####Difficulty Metric
+#### Difficulty Metric
 
 The difficulty metric I use is converted measured against two metrics of difficulty, a measure based on the number of liberties, (open cells), and measurement of time to search for solution.
 
@@ -52,19 +52,19 @@ The results would be multiplied together.
 
 There are indeed more metrics that could be used to judge the difficulty of a Sudoku puzzle, which I explore below.
 
-#####On the Subject of difficulty
+##### On the Subject of difficulty
 
 It isn't quite correct to say that a puzzle with `x` clues, and the same puzzle with an additional `x + 1` clue added are necessarily different puzzles. But there is something ot be said about the techniques used when mentally solving a puzzle and getting a clue handed to you that you would normally have to infer much later along the process of solving. Such a clue does change the way the puzzle appears to be solved. Still, I did not include that in the final tally, because It felt a little unnecessary, I had proven my point.
 
-##Analysis
+## Analysis
 
 My method is fairly similar to the one described in the prompt. I formalize the values, generate the random puzzle *p* of difficulty harder than ∂, then I lower the difficulty gradually until it meets the criteria. Never do I discard *p* and start over.
 
-###Continuousness
+### Continuousness
 
 Even though I did not get the difficulty implemented *exactly* how I wanted, theoretically it can support any arbitrary descrete or analog value, making it functionally continuous.
 
-###Results
+### Results
 
 Using Swift has its downsides. I really enjoy programming in the language, but there's not as much documentation on it as I would like, and since the language is still new and evolving, some of what is there is outdated.
 
@@ -75,15 +75,15 @@ The measure is still on an analog scale, however. If I could find a way around t
 
 Even as it is, a user would be hard hard pressed to know how the system works from just generating a bunch of puzzles.
 
-###Conclusion
+### Conclusion
 
 I'm fairly pleased with how it's turned out. With only one metric considered in the measure of difficulty, the actual difficulty of the puzzles might not scale as nicely; but short of running a user study, I have a hunch even just what's there is probably pretty close.
 
-####What I Would Do Differently
+#### What I Would Do Differently
 
 If I were to start over, there are three other approaches I might consider.
 
-#####A Genetic Algorithm
+##### A Genetic Algorithm
 
 Probably not practical, but worth mentioning.
 
@@ -95,26 +95,26 @@ The fitness function would be the closeness to the desired difficulty. This migh
 
 Genetic algorithms can be very time consuming, and I have little idea how to really speed this up, all parts involved include costly operations.
 
-#####Hole Digging
+##### Hole Digging
 
 This is pretty much exactly as described (albeit poorly) in [2]. Generate a legal solution board, then dig holes in a pattern following criteria that specifies how not to make the game unsolvable. This approach will require the guesswork and difficulty measurement described in the question prompt, as far as I can tell.
 
-#####Inverse Constraint Satisfaction
+##### Inverse Constraint Satisfaction
 
 A different kind of hole digging approach. The idea here is to use something similar to [4] where I would formalize legal moves and perform the search for possiblities to remove in such a way that they would not compromise the unique solution of the configuration.  
 I call it Inverse because (I could be wrong about this) each possible legal move to remove a piece of the puzzle would theoretically map to a kind of logic inference technique needed to deduce that cells value once removed.  
 Here the difficulty can be controlled by assigning each of those legal moves with a difficulty rating, and when the user wishes for an easier puzzle, exclude the harder difficulty moves from the search.
 
-##Other Thoughts
+## Other Thoughts
 
-###Another Solver
+### Another Solver
 
 When building my database of sudoku puzzles, I played around with [3] and in order to both generate my solutions and satisfy my curiosity. The website can present you with a puzzle from what appears to be a pool of pre-generated graded puzzles, but more interestingly, it can solve them, or any arbitrary puzzle, very quickly. It can also verify a valid puzzle, tell you a solution exists, and once solved, coach the player on the steps it took to solve the puzzle (showing the estimated difficulty of each step i.e. simple, easy, intermediate, hard), again even for puzzles you provide to it.
 
 But the coaching isn't perfect, it breaks down on what it determines are harder puzzles. This leads me to believe that its solver is also a search rather than a constraint satisfaction method, otherwise the coaching wouldn't break down after several steps in the harder puzzles.  
 But the loose end here is that it can analyze the difficulty of puzzles you input into the system. A Search can't really do that, but a constraint satisfaction solver could.
 
-####Grading Difficulty
+#### Grading Difficulty
 
 This is speculation, but they clearly use two solvers, a search of some kind (which is faster than mine) and a constraint satisfier algorithm which is how they determine the difficulty of an arbitrary puzzle. I suspect the grading works like this:
 
@@ -127,7 +127,7 @@ This is speculation, but they clearly use two solvers, a search of some kind (wh
 
 Following those guidelines, it could explain the behavior I have observed using the site.
 
-#####Continuousness
+##### Continuousness
 
 Obviously these are discrete values of difficulty. At best it would be a very weak indication of how long it takes to solve the puzzle. Using these values, however and other metrics, I believe a stronger indication could be estimated.
 
@@ -143,7 +143,7 @@ For any puzzle not solvable by the constraints solver, we have a contingency. Fo
 
 This would require some fine tuning, but I feel it could work.
 
-####An Aside about the Search Solver
+#### An Aside about the Search Solver
 
 I am led to speculate on how their search is better than mine, and I do have a guess. My search is a naïve DFS:
 
@@ -188,11 +188,11 @@ Now we perform the search:
 
 This algorithm should be much faster in theory.
 
-###PDDL
+### PDDL
 
 It occurs to me that a PDDL Sudoku solver might be an interesting (and likely extremely tedious) exercise to implement.
 
-##References
+## References
 
 1. [Gary McGuire, Bastian Tugemann, Gilles Civario. "There is no 16-Clue Sudoku: Solving the Sudoku Minimum Number of Clues Problem" Jan 1st, 2012](http://www.math.ie/McGuire_V1.pdf)
 2. [Sudoku Puzzles Generating: from Easy to Evil](http://zhangroup.aporc.org/images/files/Paper_3485.pdf)<sup>*</sup>
